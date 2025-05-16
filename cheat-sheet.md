@@ -5,9 +5,13 @@
 | `a`         | Literal “a”                             | matches “a”             |
 | `.`         | Any character except newline           | `t.t` → “tat”, “tot”     |
 | `\d`        | Digit (0–9)                             | `\d+` → “2025”           |
+| `\D`        | Non digit (0–9)                             | `\D+` → “abc ./\+-”           |
 | `\w`        | Word character (letter, digit, underscore) | `\w{3}` → “Ab9”      |
+| `\W`        | Non word character (letter, digit, underscore) | `\W{3}` → “!@#”      |
 | `\s`        | Whitespace (space, tab, newline)        | `\s+` → “ ” or “\n”      |
-| `[abc]`     | Any one of a, b, or c                   | `[aeiou]`               |
+| `\S`        | Non whitespace (space, tab, newline)        | `\S+` → “A!1”      |
+| `[abc]`     | Any one of a, b, or c                   | `a`, `b` or `c`        |
+| `[a-p]`     | Any one between a and p                 | `a`, `b`, `c`, `d`, `e`, etc...       |
 | `[^0-9]`    | Any character _except_ a digit          | matches “A”, “_”         |
 | `^` / `$`   | Start / end of line                     | `^Hello` , `world$`      |
 | `*`         | 0 or more of preceding token            | `a*` matches “”, “aaaa”  |
