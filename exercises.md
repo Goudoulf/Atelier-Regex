@@ -18,4 +18,4 @@ description
 
 </details>
 
-[HOME](README.md) | [Enigma](enigma.md) 
+[HOME](README.md) | [Enigmas](enigma.md) 

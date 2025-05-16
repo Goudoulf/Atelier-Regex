@@ -6,7 +6,7 @@ Welcome to the **Atelier Regex**!
 1. [Introduction](intro.md)  
 2. [Cheat Sheet](cheat-sheet.md)  
 3. [Exercises](exercises.md)  
-4. [Team Enigmas](enigmas.md)  
+4. [Enigmas](enigmas.md)  
 
 Feel free to clone, adapt, and contribute. 🦾
 

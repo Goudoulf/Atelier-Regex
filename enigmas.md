@@ -1,4 +1,4 @@
-# Part 3: Team “Enigmas” (≈40 min)
+# Part 3: Enigmas
 
 _Split into teams; click a title to expand each puzzle._
 
