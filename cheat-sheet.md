@@ -11,7 +11,7 @@
 | `\s`        | Whitespace (space, tab, newline)        | `\s+` → “ ” or “\n”      |
 | `\S`        | Non whitespace (space, tab, newline)        | `\S+` → “A!1”      |
 | `[abc]`     | Any one of a, b, or c                   | `a`, `b` or `c`        |
-| `[a-p]`     | Any one between a and p                 | `a`, `b`, `c`, `d`, `e`, etc...       |
+| `[a-p]`     | Any one between a and p                 | `foo`, `b`, `c`, `d`, `e`, etc...       |
 | `[^0-9]`    | Any character _except_ a digit          | matches “A”, “_”         |
 | `^` / `$`   | Start / end of line                     | `^Hello` , `world$`      |
 | `*`         | 0 or more of preceding token            | `a*` matches “”, “aaaa”  |
@@ -23,7 +23,7 @@
 | `()`        | Grouping / capture                      | `(foo|bar)`             |
 | `(?:…)`     | Non-capturing group                     | `(?:Mr|Ms)\.`           |
 | `\1`, `\2`  | Backreference to 1st, 2nd capture group | `(a)(b)\1\2` → “abba”    |
-| `|`         | Alternation (“or”)                      | `cat|dog`               |
+| `\|`         | Alternation (“or”)                      | `cat\|dog`               |
 | `\`         | Escape next metacharacter               | `\.` → “.”              |
 
 > **Tip**:  
