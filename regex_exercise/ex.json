@@ -1,0 +1,323 @@
+[
+  {
+    "token": "\\w",
+    "description": "Match any word character: letter (a-z, A-Z), digit (0-9), or underscore (_). Equivalent to [A-Za-z0-9_].",
+    "exercises": [
+      {
+        "description": "Match every word character in the text",
+        "text": "a1b2_c3D4",
+        "expected": ["a", "1", "b", "2", "_", "c", "3", "D", "4"]
+      },
+      {
+        "description": "Match sequences of word characters",
+        "text": "Hello_world 1234!",
+        "expected": ["Hello_world", "1234"]
+      },
+      {
+        "description": "Match words and digits separately",
+        "text": "abc123 def_456 ghi789",
+        "expected": ["abc123", "def_456", "ghi789"]
+      }
+    ]
+  },
+  {
+    "token": "\\d",
+    "description": "Match any digit character (0-9).",
+    "exercises": [
+      {
+        "description": "Match every digit character in the text",
+        "text": "a1b2c3d4",
+        "expected": ["1", "2", "3", "4"]
+      },
+      {
+        "description": "Match digit sequences of length 2 or more",
+        "text": "a12b345c6",
+        "expected": ["12", "345", "6"]
+      },
+      {
+        "description": "Match phone numbers in format 123-456-7890",
+        "text": "Call me at 123-456-7890 or 987-654-3210.",
+        "expected": ["123", "456", "7890", "987", "654", "3210"]
+      }
+    ]
+  },
+  {
+    "token": "\\s",
+    "description": "Match any whitespace character (space, tab, newline).",
+    "exercises": [
+      {
+        "description": "Match all whitespace characters in the text",
+        "text": "Hello world!\nThis is\tgreat.",
+        "expected": [" ", "\n", " ", "\t", " "]
+      },
+      {
+        "description": "Match sequences of whitespace characters",
+        "text": "a   b\n\nc\t\t d",
+        "expected": ["   ", "\n\n", "\t\t", " "]
+      },
+      {
+        "description": "Split text by whitespace (find spaces)",
+        "text": "Split this   sentence\ninto words.",
+        "expected": [" ", "   ", "\n", " "]
+      }
+    ]
+  },
+  {
+    "token": "\\W",
+    "description": "Match any non-word character (not a letter, digit, or underscore).",
+    "exercises": [
+      {
+        "description": "Match every non-word character",
+        "text": "Hello, world! 123.",
+        "expected": [",", " ", "!", " ", "."]
+      },
+      {
+        "description": "Match sequences of non-word characters",
+        "text": "Hey!!! Are you #1?",
+        "expected": ["!!!", " ", " ", " #", "?"]
+      }
+    ]
+  },
+  {
+    "token": "\\D",
+    "description": "Match any non-digit character.",
+    "exercises": [
+      {
+        "description": "Match all non-digit characters in the text",
+        "text": "a1b2c3d4",
+        "expected": ["a", "b", "c", "d"]
+      },
+      {
+        "description": "Match sequences of non-digit characters",
+        "text": "Hello123World456!",
+        "expected": ["Hello", "World", "!"]
+      }
+    ]
+  },
+  {
+    "token": "\\S",
+    "description": "Match any non-whitespace character.",
+    "exercises": [
+      {
+        "description": "Match all non-whitespace characters",
+        "text": "Hello world!",
+        "expected": ["H", "e", "l", "l", "o", "w", "o", "r", "l", "d", "!"]
+      },
+      {
+        "description": "Match sequences of non-whitespace characters (words)",
+        "text": "Split this sentence",
+        "expected": ["Split", "this", "sentence"]
+      }
+    ]
+  },
+  {
+    "token": "[abc]",
+    "description": "Character class: match any one character inside the brackets (a, b, or c).",
+    "exercises": [
+      {
+        "description": "Match vowels 'a', 'e', 'i' in text",
+        "text": "apple pie is nice",
+        "expected": ["a", "i", "i", "i"]
+      },
+      {
+        "description": "Match only letters 'a', 'b', or 'c'",
+        "text": "abcxyzABC123",
+        "expected": ["a", "b", "c"]
+      },
+      {
+        "description": "Match digits 1, 3, or 5 only",
+        "text": "1234567890",
+        "expected": ["1", "3", "5"]
+      }
+    ]
+  },
+  {
+    "token": "[a-z]",
+    "description": "Match any lowercase letter from a to z.",
+    "exercises": [
+      {
+        "description": "Match lowercase letters only",
+        "text": "AbCdeFGhij",
+        "expected": ["b", "d", "e", "h", "i", "j"]
+      },
+      {
+        "description": "Match words made of lowercase letters",
+        "text": "hello WORLD 123",
+        "expected": ["hello"]
+      }
+    ]
+  },
+  {
+    "token": "[^abc]",
+    "description": "Negated character class: match any character except 'a', 'b', or 'c'.",
+    "exercises": [
+      {
+        "description": "Match characters except a, b, c",
+        "text": "abcxyzABC123",
+        "expected": ["x", "y", "z", "A", "B", "C", "1", "2", "3"]
+      },
+      {
+        "description": "Match digits only",
+        "text": "a1b2c3",
+        "expected": ["1", "2", "3"]
+      }
+    ]
+  },
+  {
+    "token": "*",
+    "description": "Quantifier: match previous token 0 or more times (greedy).",
+    "exercises": [
+      {
+        "description": "Match zero or more 'a's",
+        "text": "aaabaaac",
+        "expected": ["aaa", "aaa"]
+      },
+      {
+        "description": "Match sequences of letters followed by digits (using \\w*\\d+)",
+        "text": "abc123 xyz4567 89",
+        "expected": ["abc123", "xyz4567", "89"]
+      },
+      {
+        "description": "Match zero or more digits between letters",
+        "text": "a123b4567c89d",
+        "expected": ["123", "4567", "89"]
+      }
+    ]
+  },
+  {
+    "token": "+",
+    "description": "Quantifier: match previous token 1 or more times (greedy).",
+    "exercises": [
+      {
+        "description": "Match sequences of digits",
+        "text": "a1b22c333d",
+        "expected": ["1", "22", "333"]
+      },
+      {
+        "description": "Match sequences of letters",
+        "text": "abc def g",
+        "expected": ["abc", "def", "g"]
+      },
+      {
+        "description": "Match sequences of word characters",
+        "text": "hello_world123",
+        "expected": ["hello_world123"]
+      }
+    ]
+  },
+  {
+    "token": "?",
+    "description": "Quantifier: match previous token 0 or 1 time (optional).",
+    "exercises": [
+      {
+        "description": "Match 'colou?r' (color or colour)",
+        "text": "color colour colouur",
+        "expected": ["color", "colour"]
+      },
+      {
+        "description": "Match zero or one digit after letter",
+        "text": "a1 b2 c3 d",
+        "expected": ["1", "2", "3"]
+      }
+    ]
+  },
+  {
+    "token": "{n}",
+    "description": "Quantifier: match previous token exactly n times.",
+    "exercises": [
+      {
+        "description": "Match exactly 3 digits",
+        "text": "12 123 1234 567",
+        "expected": ["123", "567"]
+      },
+      {
+        "description": "Match exactly 2 letters 'ab'",
+        "text": "ab abc aabb abbb",
+        "expected": ["ab", "ab"]
+      }
+    ]
+  },
+  {
+    "token": "{n,}",
+    "description": "Quantifier: match previous token at least n times.",
+    "exercises": [
+      {
+        "description": "Match sequences of at least 2 digits",
+        "text": "1 12 123 1234",
+        "expected": ["12", "123", "1234"]
+      }
+    ]
+  },
+  {
+    "token": "{n,m}",
+    "description": "Quantifier: match previous token at least n times, at most m times.",
+    "exercises": [
+      {
+        "description": "Match sequences of digits 2 to 3 times",
+        "text": "1 12 123 1234",
+        "expected": ["12", "123"]
+      }
+    ]
+  },
+  {
+    "token": "^",
+    "description": "Anchor: match start of string or line.",
+    "exercises": [
+      {
+        "description": "Match lines starting with 'Hello'",
+        "text": "Hello world\nHi there\nHello again",
+        "expected": ["Hello", "Hello"]
+      },
+      {
+        "description": "Match words starting at beginning of string",
+        "text": "start middle end",
+        "expected": ["start"]
+      }
+    ]
+  },
+  {
+    "token": "$",
+    "description": "Anchor: match end of string or line.",
+    "exercises": [
+      {
+        "description": "Match lines ending with 'end'",
+        "text": "start middle end\nThe end\nno end here",
+        "expected": ["end", "end"]
+      },
+      {
+        "description": "Match words at end of string",
+        "text": "start middle end",
+        "expected": ["end"]
+      }
+    ]
+  },
+  {
+    "token": "|",
+    "description": "Alternation: match either the expression before or after |.",
+    "exercises": [
+      {
+        "description": "Match either 'cat' or 'dog'",
+        "text": "cat dog bird",
+        "expected": ["cat", "dog"]
+      },
+      {
+        "description": "Match vowels or digits",
+        "text": "a1b2c3d4",
+        "expected": ["a", "1", "b", "2", "c", "3", "d", "4"]
+      }
+    ]
+  },
+  {
+    "token": "Combined example",
+    "description": "Match words starting with a digit, then letters, optionally ending with underscore and digits.",
+    "exercises": [
+      {
+        "description": "Match '3dogs_45' and '2cats'",
+        "text": "3dogs_45 2cats 4birds 5fish_",
+        "pattern": "\\d\\w+(?:_\\d+)?",
+        "expected": ["3dogs_45", "2cats", "4birds", "5fish_"]
+      }
+    ]
+  }
+
+]
