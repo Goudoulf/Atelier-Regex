@@ -157,7 +157,7 @@ void showExerciseScreen(std::vector<Token>& tokens, int start_index = 0) {
                 separator(),
                 window(text(" Token Description "), paragraph(token.description)),
                 separator(),
-                window(text(" Exercise " + std::to_string(currentExerciseIndex + 1)),
+                window(text(" Exercise " + std::to_string(currentExerciseIndex + 1) + " "),
                     vbox({
                         paragraph(token.exercises[currentExerciseIndex].description),
                         separator(),

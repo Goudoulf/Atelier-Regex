@@ -13,8 +13,11 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 
-objs/%.o: srcs/%.cpp Makefile
+objs/%.o: srcs/%.cpp Makefile | objs/
 	$(CC) -c $< -o $@ $(FLAGS)
+
+objs/: 
+	mkdir -p objs
 
 .PHONY: all clean fclean re
 
