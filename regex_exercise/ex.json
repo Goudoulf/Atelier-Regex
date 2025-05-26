@@ -22,7 +22,7 @@
 	},
 	{
 		"token": "\\w",
-		"description": "Match any word character: letter (a-z, A-Z), digit (0-9), or underscore (_).\nTo match every non word character we can use '\\W'.",
+		"description": "Matches any word character: letter (a-z, A-Z), digit (0-9), or underscore (_).\nTo match every non word character we can use '\\W'.",
 		"exercises": [
 			{
 				"description": "Match every word character in the text",
@@ -38,7 +38,7 @@
 	},
 	{
 		"token": "\\d",
-		"description": "Match any digit character (0-9).\nTo match any non digit character we can use '\\D'.",
+		"description": "Matches any digit character (0-9).\nTo match any non digit character we can use '\\D'.",
 		"exercises": [
 			{
 				"description": "Match every digit character in the text",
@@ -59,7 +59,7 @@
 	},
 	{
 		"token": "\\s",
-		"description": "Match any whitespace character (space, tab, newline).\nTo match any non whitespace character we can use '\\S'.",
+		"description": "Matches any whitespace character (space, tab, newline).\nTo match any non whitespace character we can use '\\S'.",
 		"exercises": [
 			{
 				"description": "Match all whitespace characters in the text",
@@ -75,7 +75,7 @@
 	},
 	{
 		"token": "[abc]",
-		"description": "match any character inside the brackets.",
+		"description": "Matches any character inside the brackets.",
 		"exercises": [
 			{
 				"description": "Match vowels 'a', 'e', 'i' in text",
@@ -86,12 +86,17 @@
 				"description": "Match digits 1, 3, or 5 only",
 				"text": "1234567890",
 				"expected": ["1", "3", "5"]
+			},
+			{
+				"description": "Match can, van, ran",
+				"text": "man nan can lan van ran",
+				"expected": ["can", "van", "ran"]
 			}
 		]
 	},
 	{
 		"token": "[^abc]",
-		"description": "Match any character except those in the brackets.",
+		"description": "Matches any character except those in the brackets.",
 		"exercises": [
 			{
 				"description": "Match characters except a, b, c",
@@ -100,51 +105,46 @@
 			},
 			{
 				"description": "Match digits only",
-				"text": "a1b2c3",
-				"expected": ["1", "2", "3"]
+				"text": "abcdefghijkl1234567",
+				"expected": ["1", "2", "3", "4", "5", "6", "7"]
 			}
 		]
 	},
 	{
 		"token": "[a-z]",
-		"description": "Match any character between two specified character that can be digits or letters.",
+		"description": "Matches any character between two specified character that can be digits or letters.",
 		"exercises": [
 			{
 				"description": "Match lowercase letters only",
 				"text": "AbCdeFGhij",
 				"expected": ["b", "d", "e", "h", "i", "j"]
-			},
-			{
-				"description": "Match words made of lowercase letters",
-				"text": "hello WORLD 123",
-				"expected": ["hello"]
 			}
 		]
 	},
 	{
 		"token": "?*+",
-		"description": "'?' matches previous token 0 or one time.\n'*' matches previous token 0 or multiple time.\n'+' matches previous token 1 or multiple time.",
+		"description": "'?' matches previous token 0 or 1 time.\n'*' matches previous token 0 or more time.\n'+' matches previous token 1 or more time.",
 		"exercises": [
 			{
-				"description": "Match zero or more 'a's",
-				"text": "aaabaaac",
-				"expected": ["aaa", "aaa"]
+				"description": "Match any word with 1 or more 'e'",
+				"text": "b be bee beer",
+				"expected": ["be", "bee", "beer"]
 			},
 			{
-				"description": "Match sequences of letters followed by digits (using \\w*\\d+)",
-				"text": "abc123 xyz4567 89",
-				"expected": ["abc123", "xyz4567", "89"]
+				"description": "Match color and colour\nTry using '?'",
+				"text": "color colour",
+				"expected": ["color", "colour"]
 			},
 			{
-				"description": "Match zero or more digits between letters",
-				"text": "a123b4567c89d",
-				"expected": ["123", "4567", "89"]
+				"description": "Match evry word except 'a'",
+				"text": "a aabbcc aacc aa",
+				"expected": ["aabbcc", "aacc", "aa"]
 			}
 		]
 	},
 	{
 		"token": "|",
-		"description": "match either the expression before or after |.",
+		"description": "Matches either the expression before or after '|'.",
 		"exercises": [
 			{
 				"description": "Match either 'cat' or 'dog'",
@@ -152,31 +152,41 @@
 				"expected": ["cat", "dog"]
 			},
 			{
-				"description": "Match vowels or digits",
-				"text": "a1b2c3d4",
-				"expected": ["a", "1", "b", "2", "c", "3", "d", "4"]
+				"description": "Match any 3-letter word starting with 'b' or 'c'",
+				"text": "bat cat rat mat cap cup",
+				"expected": ["bat", "cat", "cap", "cup"]
+			},
+			{
+				"description": "Match either a number or the word 'unknown'",
+				"text": "Age: 25, Height: unknown, Score: 100",
+				"expected": ["25", "unknown", "100"]
 			}
 		]
 	},
 	{
 		"token": "{n}, {n,}, {n,m}",
-		"description": "match previous token exactly n times.",
+		"description": "Matches previous token exactly n times or n and more times or between n and m times.",
 		"exercises": [
 			{
-				"description": "Match exactly 3 digits",
-				"text": "12 123 1234 567",
-				"expected": ["123", "567"]
+				"description": "Match any 3 character sequence",
+				"text": "abc def gh ijkl mn",
+				"expected": ["abc", "def", "ijk"]
 			},
 			{
-				"description": "Match exactly 2 letters 'ab'",
-				"text": "ab abc aabb abbb",
-				"expected": ["ab", "ab"]
+				"description": "Match sequences of at least one lowercase letter",
+				"text": "Hello world! 123 abc A1b2",
+				"expected": ["ello", "world", "abc"]
+			},
+			{
+				"description": "Match numbers that are between 2 and 4 digits long",
+				"text": "9 12 123 1234 12345 6 7890",
+				"expected": ["12", "123", "1234", "7890"]
 			}
 		]
 	},
 	{
 		"token": "^$",
-		"description": "match start of string or line.",
+		"description": "'^' matches start of string or line and '$' matches end of string or line.",
 		"exercises": [
 			{
 				"description": "Match lines starting with 'Hello'",
@@ -184,23 +194,15 @@
 				"expected": ["Hello", "Hello"]
 			},
 			{
-				"description": "Match words starting at beginning of string",
-				"text": "start middle end",
-				"expected": ["start"]
-			}
-		]
-	},
-	{
-		"token": "Combined example",
-		"description": "Match words starting with a digit, then letters, optionally ending with underscore and digits.",
-		"exercises": [
+				"description": "Match lines ending with '!'",
+				"text": "Hello!\nWhat a day\nWow!\nOkay.",
+				"expected": ["Hello!", "Wow!"]
+			},
 			{
-				"description": "Match '3dogs_45' and '2cats'",
-				"text": "3dogs_45 2cats 4birds 5fish_",
-				"pattern": "\\d\\w+(?:_\\d+)?",
-				"expected": ["3dogs_45", "2cats", "4birds", "5fish_"]
+				"description": "Match lines that contain only the word 'yes'",
+				"text": "yes\nno\nyes indeed\n  yes\nyes\n",
+				"expected": ["yes", "yes"]
 			}
 		]
 	}
-
 ]
