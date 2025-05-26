@@ -144,7 +144,7 @@
 	},
 	{
 		"token": "|",
-		"description": "Alternation: match either the expression before or after |.",
+		"description": "match either the expression before or after |.",
 		"exercises": [
 			{
 				"description": "Match either 'cat' or 'dog'",
@@ -160,7 +160,7 @@
 	},
 	{
 		"token": "{n}, {n,}, {n,m}",
-		"description": "Quantifier: match previous token exactly n times.",
+		"description": "match previous token exactly n times.",
 		"exercises": [
 			{
 				"description": "Match exactly 3 digits",
@@ -176,7 +176,7 @@
 	},
 	{
 		"token": "^$",
-		"description": "Anchor: match start of string or line.",
+		"description": "match start of string or line.",
 		"exercises": [
 			{
 				"description": "Match lines starting with 'Hello'",

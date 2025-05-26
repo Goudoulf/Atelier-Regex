@@ -7,6 +7,8 @@
 #include <fstream>
 #include <regex>
 
+#include <iostream>
+
 using namespace ftxui;
 
 struct Exercise {
@@ -50,18 +52,29 @@ std::vector<std::string> checkRegexInput(std::string text, std::string input){
 	std::vector<std::string> results;
 	
 	try {
+		std::cerr << "input: " << input << std::endl;
 		std::regex re(input);
 		std::smatch matches;
 	
 		auto start = text.cbegin();
 		auto end = text.cend();
 	
-		while (std::regex_search(start, end, matches, re)) {
+		while (start != end && std::regex_search(start, end, matches, re)) {
+			if (matches.length() == 0) {
+				std::cerr << "match = 0" << std::endl;
+				++start;
+				if (start == end){
+					std::cerr << "start == end" << std::endl;
+					break;
+				}
+				continue;
+			}
 			results.push_back(matches.str());
 			start = matches.suffix().first;
 		}
+		std::cerr << "regex checked" << std::endl;
 	} catch (const std::regex_error& e) {
-
+		std::cerr << e.what() << std::endl;
 	}
     return results;
 }
