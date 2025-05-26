@@ -1,65 +1,44 @@
 [
 	{
 		"token": "a",
-		"description": "Matches any character or word specified literally in the pattern.\nThis means the regex matches the exact sequence of characters written.\nIt does not match metacharacters unless they are escaped (e.g., `.` or `*`).",
+		"description": "Matches any character or word specified literally in the pattern.\nThis means the regex matches the exact sequence of characters written.\nIt does not match metacharacters unless they are escaped (e.g., `.` -> `\\.` or `*` -> `\\*`).\nTo match any character we can use the metacharacter '.'.",
 		"exercises": [
 			{
-			"description": "Match every 'a' character in the text",
-			"text": "abcABC123",
-			"expected": ["a"]
+				"description": "Match every 'a' character in the text",
+				"text": "abcABC123",
+				"expected": ["a"]
 			},
 			{
-			"description": "Match every '1' character in the text",
-			"text": "1 5 10 15",
-			"expected": ["1", "1", "1"]
+				"description": "Match every '123' word in the text",
+				"text": "12 123 1234",
+				"expected": ["123", "123"]
 			},
 			{
-			"description": "Match every 'abc' word in the text",
-			"text": "ab abc abcd",
-			"expected": ["abc", "abc"]
-			}
-		]
-	},
-	{
-		"token": ".",
-		"description": "Matches any character in the pattern except newline.",
-		"exercises": [
-			{
-			"description": "Match every character in the text",
-			"text": "abcABC123",
-			"expected": ["a", "b", "c", "A", "B", "C", "1", "2", "3"]
-			},
-			{
-			"description": "Match every character in the text",
-			"text": "abcABC123",
-			"expected": ["a", "b", "c", "A", "B", "C", "1", "2", "3"]
+				"description": "Match only cat and cut words in the text",
+				"text": "cat cut coat",
+				"expected": ["cat", "cut"]
 			}
 		]
 	},
 	{
 		"token": "\\w",
-		"description": "Match any word character: letter (a-z, A-Z), digit (0-9), or underscore (_). Equivalent to [A-Za-z0-9_].",
+		"description": "Match any word character: letter (a-z, A-Z), digit (0-9), or underscore (_).\nTo match every non word character we can use '\\W'.",
 		"exercises": [
 			{
 				"description": "Match every word character in the text",
-				"text": "a1b2_c3D4",
+				"text": "a1b2_  c3D4",
 				"expected": ["a", "1", "b", "2", "_", "c", "3", "D", "4"]
 			},
 			{
-				"description": "Match sequences of word characters",
-				"text": "Hello_world 1234!",
-				"expected": ["Hello_world", "1234"]
-			},
-			{
-				"description": "Match words and digits separately",
-				"text": "abc123 def_456 ghi789",
-				"expected": ["abc123", "def_456", "ghi789"]
+				"description": "Match every non word character in the text",
+				"text": "abc123-= def_456? ghi789.",
+				"expected": ["-", "=", " ", "?", " ", "."]
 			}
 		]
 	},
 	{
 		"token": "\\d",
-		"description": "Match any digit character (0-9).",
+		"description": "Match any digit character (0-9).\nTo match any non digit character we can use '\\D'.",
 		"exercises": [
 			{
 				"description": "Match every digit character in the text",
@@ -67,83 +46,30 @@
 				"expected": ["1", "2", "3", "4"]
 			},
 			{
-				"description": "Match digit sequences of length 2 or more",
-				"text": "a12b345c6",
-				"expected": ["12", "345", "6"]
-			},
-			{
 				"description": "Match phone numbers in format 123-456-7890",
 				"text": "Call me at 123-456-7890 or 987-654-3210.",
 				"expected": ["123", "456", "7890", "987", "654", "3210"]
+			},
+			{
+				"description": "Match every non digit character",
+				"text": "a1b2c3d4",
+				"expected": ["a", "b", "c", "d"]
 			}
 		]
 	},
 	{
 		"token": "\\s",
-		"description": "Match any whitespace character (space, tab, newline).",
+		"description": "Match any whitespace character (space, tab, newline).\nTo match any non whitespace character we can use '\\S'.",
 		"exercises": [
 			{
 				"description": "Match all whitespace characters in the text",
 				"text": "Hello world!\nThis is\tgreat.",
-				"expected": [" ", "\n", " ", "\t", " "]
+				"expected": [" ", "\n", " ", "\t"]
 			},
 			{
 				"description": "Match sequences of whitespace characters",
 				"text": "a\t b\n\nc\t\t d",
-				"expected": ["\t ", "\n\n", "\t\t", " "]
-			},
-			{
-				"description": "Split text by whitespace (find spaces)",
-				"text": "Split this sentence\ninto words.",
-				"expected": [" ", "\t ", "\n", " "]
-			}
-		]
-	},
-	{
-		"token": "\\W",
-		"description": "Match any non-word character (not a letter, digit, or underscore).",
-		"exercises": [
-			{
-				"description": "Match every non-word character",
-				"text": "Hello, world! 123.",
-				"expected": [",", " ", "!", " ", "."]
-			},
-			{
-				"description": "Match sequences of non-word characters",
-				"text": "Hey!!! Are you #1?",
-				"expected": ["!!!", " ", " ", " #", "?"]
-			}
-		]
-	},
-	{
-		"token": "\\D",
-		"description": "Match any non-digit character.",
-		"exercises": [
-			{
-				"description": "Match all non-digit characters in the text",
-				"text": "a1b2c3d4",
-				"expected": ["a", "b", "c", "d"]
-			},
-			{
-				"description": "Match sequences of non-digit characters",
-				"text": "Hello123World456!",
-				"expected": ["Hello", "World", "!"]
-			}
-		]
-	},
-	{
-		"token": "\\S",
-		"description": "Match any non-whitespace character.",
-		"exercises": [
-			{
-				"description": "Match all non-whitespace characters",
-				"text": "Hello world!",
-				"expected": ["H", "e", "l", "l", "o", "w", "o", "r", "l", "d", "!"]
-			},
-			{
-				"description": "Match sequences of non-whitespace characters (words)",
-				"text": "Split this sentence",
-				"expected": ["Split", "this", "sentence"]
+				"expected": ["\t ", "\n\n", "\t\t "]
 			}
 		]
 	},

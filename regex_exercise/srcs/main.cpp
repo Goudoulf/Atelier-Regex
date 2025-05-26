@@ -1,13 +1,10 @@
 #include "../include/json.hpp"
-#include <ftxui/component/component.hpp>       // for Button, Input, Renderer, Vertical
-#include <ftxui/component/component_base.hpp>  // for Component
-#include <ftxui/component/screen_interactive.hpp>  // for ScreenInteractive
+#include <ftxui/component/component.hpp>
+#include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 #include <string>
 #include <vector>
 #include <fstream>
-#include <iostream>
-#include <unistd.h>
 #include <regex>
 
 using namespace ftxui;
@@ -69,6 +66,30 @@ std::vector<std::string> checkRegexInput(std::string text, std::string input){
     return results;
 }
 
+std::string normalize_tabs(const std::string& input, int tab_width = 4) {
+    std::string result;
+    for (char c : input) {
+        if (c == '\t')
+            result += std::string(tab_width, ' ');
+        else
+            result += c;
+    }
+    return result;
+}
+
+std::string visualize_whitespace(const std::string& input) {
+    std::string output;
+    for (char c : input) {
+        switch (c) {
+            // case ' ': output += "\' \'"; break;
+            case '\t': output += "\\t"; break;
+            case '\n': output += "\\n"; break;
+            default: output += c; break;
+        }
+    }
+    return output;
+}
+
 void showExerciseScreen(std::vector<Token>& tokens, int start_index = 0) {
     int currentTokenIndex = start_index;
 
@@ -106,7 +127,8 @@ void showExerciseScreen(std::vector<Token>& tokens, int start_index = 0) {
                         results.push_back("❌ Expected more match...");
                         return true;
                     } else {
-                        results[i] += results[i] == token.exercises[currentExerciseIndex].expected[i] ? " ✅" : " ❌";
+						results[i] += results[i] == token.exercises[currentExerciseIndex].expected[i] ? "\' ✅" : "\' ❌";
+						results[i] = "\'" + results[i];
                     }
                 }
                 return true;
@@ -150,21 +172,21 @@ void showExerciseScreen(std::vector<Token>& tokens, int start_index = 0) {
         auto main_component = Renderer(container, [&] {
             std::vector<Element> result_elements;
             for (const auto& res : results)
-                result_elements.push_back(text(res) | color(Color::Yellow) | bold);
+                result_elements.push_back(text(visualize_whitespace(res)) | color(Color::Yellow) | bold);
 
             return vbox({
                 text("Token: " + token.token) | bold | center,
                 separator(),
                 window(text(" Token Description "), paragraph(token.description)),
                 separator(),
-                window(text(" Exercise " + std::to_string(currentExerciseIndex + 1) + " "),
+                window(text(" Exercise " + std::to_string(currentExerciseIndex + 1)),
                     vbox({
-                        paragraph(token.exercises[currentExerciseIndex].description),
+                        paragraph(normalize_tabs(token.exercises[currentExerciseIndex].description)),
                         separator(),
-                        paragraph(token.exercises[currentExerciseIndex].text) | color(Color::Green),
+                        paragraph(normalize_tabs(token.exercises[currentExerciseIndex].text)) | color(Color::Green),
                     })),
                 separator(),
-                vbox({input->Render() | border}),
+                vbox({input->Render(), separator(), text("Press [Enter] to validate input")}) | border,
                 vbox(result_elements),
                 filler(),
                 hbox({prev_button->Render(), filler(), next_button->Render()}),
@@ -195,28 +217,26 @@ int main() {
         auto menu = Menu(&token_labels, &selected_index);
 
         bool launch_exercise = false;
-        // bool exit_program = false;
-
-        // auto exit_button = Button("Exit", [&exit_program, &screen] {
-        //     exit_program = true;
-        //     screen.Exit();
-        // });
-
         menu |= CatchEvent([&](Event event) {
-            if (event == Event::Return) {
-                launch_exercise = true;
-                screen.Exit();
-                return true;
-            }
-            return false;
-        });
+			if (event == Event::Return) {
+				launch_exercise = true;
+				screen.Exit();
+				return true;
+			}
+			if (event == Event::Escape) {
+				screen.Exit();
+				return true;
+			}
+			return false;
+		});
 
         auto main_component = Renderer(menu, [&] {
             return vbox({
                 text("=== Select a Token ===") | bold | center,
                 separator(),
                 menu->Render(),
-                // vbox({exit_button->Render() | border})
+				separator(),
+				text("Press [Enter] to select, [Esc] to quit.") | center
             }) | border | center;
         });
 
