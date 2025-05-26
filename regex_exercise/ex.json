@@ -1,7 +1,7 @@
 [
 	{
 		"token": "a",
-		"description": "Matches any character or word specified literally in the pattern.\nThis means the regex matches the exact sequence of characters written.\nIt does not match metacharacters unless they are escaped (e.g., `.` -> `\\.` or `*` -> `\\*`).\nTo match any character we can use the metacharacter '.'.",
+		"description": "Matches any character or word specified literally in the pattern.\nThis means the regex matches the exact sequence of characters written.\nIt does not match metacharacters unless they are escaped (e.g., `.` -> `\\.` or `*` -> `\\*`).\nThe metacharacter '.' will match every character except newline.",
 		"exercises": [
 			{
 				"description": "Match every 'a' character in the text",
@@ -67,25 +67,20 @@
 				"expected": [" ", "\n", " ", "\t"]
 			},
 			{
-				"description": "Match sequences of whitespace characters",
-				"text": "a\t b\n\nc\t\t d",
-				"expected": ["\t ", "\n\n", "\t\t "]
+				"description": "Match sequences of two whitespace characters",
+				"text": "a\t b\n c\t\t d",
+				"expected": ["\t ", "\n ", "\t\t"]
 			}
 		]
 	},
 	{
 		"token": "[abc]",
-		"description": "Character class: match any one character inside the brackets (a, b, or c).",
+		"description": "match any character inside the brackets.",
 		"exercises": [
 			{
 				"description": "Match vowels 'a', 'e', 'i' in text",
 				"text": "apple pie is nice",
-				"expected": ["a", "i", "i", "i"]
-			},
-			{
-				"description": "Match only letters 'a', 'b', or 'c'",
-				"text": "abcxyzABC123",
-				"expected": ["a", "b", "c"]
+				"expected": ["a", "e", "i", "e", "i", "i", "e"]
 			},
 			{
 				"description": "Match digits 1, 3, or 5 only",
@@ -95,24 +90,8 @@
 		]
 	},
 	{
-		"token": "[a-z]",
-		"description": "Match any lowercase letter from a to z.",
-		"exercises": [
-			{
-				"description": "Match lowercase letters only",
-				"text": "AbCdeFGhij",
-				"expected": ["b", "d", "e", "h", "i", "j"]
-			},
-			{
-				"description": "Match words made of lowercase letters",
-				"text": "hello WORLD 123",
-				"expected": ["hello"]
-			}
-		]
-	},
-	{
 		"token": "[^abc]",
-		"description": "Negated character class: match any character except 'a', 'b', or 'c'.",
+		"description": "Match any character except those in the brackets.",
 		"exercises": [
 			{
 				"description": "Match characters except a, b, c",
@@ -127,8 +106,24 @@
 		]
 	},
 	{
-		"token": "*",
-		"description": "Quantifier: match previous token 0 or more times (greedy).",
+		"token": "[a-z]",
+		"description": "Match any character between two specified character that can be digits or letters.",
+		"exercises": [
+			{
+				"description": "Match lowercase letters only",
+				"text": "AbCdeFGhij",
+				"expected": ["b", "d", "e", "h", "i", "j"]
+			},
+			{
+				"description": "Match words made of lowercase letters",
+				"text": "hello WORLD 123",
+				"expected": ["hello"]
+			}
+		]
+	},
+	{
+		"token": "?*+",
+		"description": "'?' matches previous token 0 or one time.\n'*' matches previous token 0 or multiple time.\n'+' matches previous token 1 or multiple time.",
 		"exercises": [
 			{
 				"description": "Match zero or more 'a's",
@@ -148,44 +143,23 @@
 		]
 	},
 	{
-		"token": "+",
-		"description": "Quantifier: match previous token 1 or more times (greedy).",
+		"token": "|",
+		"description": "Alternation: match either the expression before or after |.",
 		"exercises": [
 			{
-				"description": "Match sequences of digits",
-				"text": "a1b22c333d",
-				"expected": ["1", "22", "333"]
+				"description": "Match either 'cat' or 'dog'",
+				"text": "cat dog bird",
+				"expected": ["cat", "dog"]
 			},
 			{
-				"description": "Match sequences of letters",
-				"text": "abc def g",
-				"expected": ["abc", "def", "g"]
-			},
-			{
-				"description": "Match sequences of word characters",
-				"text": "hello_world123",
-				"expected": ["hello_world123"]
+				"description": "Match vowels or digits",
+				"text": "a1b2c3d4",
+				"expected": ["a", "1", "b", "2", "c", "3", "d", "4"]
 			}
 		]
 	},
 	{
-		"token": "?",
-		"description": "Quantifier: match previous token 0 or 1 time (optional).",
-		"exercises": [
-			{
-				"description": "Match 'colou?r' (color or colour)",
-				"text": "color colour colouur",
-				"expected": ["color", "colour"]
-			},
-			{
-				"description": "Match zero or one digit after letter",
-				"text": "a1 b2 c3 d",
-				"expected": ["1", "2", "3"]
-			}
-		]
-	},
-	{
-		"token": "{n}",
+		"token": "{n}, {n,}, {n,m}",
 		"description": "Quantifier: match previous token exactly n times.",
 		"exercises": [
 			{
@@ -201,29 +175,7 @@
 		]
 	},
 	{
-		"token": "{n,}",
-		"description": "Quantifier: match previous token at least n times.",
-		"exercises": [
-			{
-				"description": "Match sequences of at least 2 digits",
-				"text": "1 12 123 1234",
-				"expected": ["12", "123", "1234"]
-			}
-		]
-	},
-	{
-		"token": "{n,m}",
-		"description": "Quantifier: match previous token at least n times, at most m times.",
-		"exercises": [
-			{
-				"description": "Match sequences of digits 2 to 3 times",
-				"text": "1 12 123 1234",
-				"expected": ["12", "123"]
-			}
-		]
-	},
-	{
-		"token": "^",
+		"token": "^$",
 		"description": "Anchor: match start of string or line.",
 		"exercises": [
 			{
@@ -235,38 +187,6 @@
 				"description": "Match words starting at beginning of string",
 				"text": "start middle end",
 				"expected": ["start"]
-			}
-		]
-	},
-	{
-		"token": "$",
-		"description": "Anchor: match end of string or line.",
-		"exercises": [
-			{
-				"description": "Match lines ending with 'end'",
-				"text": "start middle end\nThe end\nno end here",
-				"expected": ["end", "end"]
-			},
-			{
-				"description": "Match words at end of string",
-				"text": "start middle end",
-				"expected": ["end"]
-			}
-		]
-	},
-	{
-		"token": "|",
-		"description": "Alternation: match either the expression before or after |.",
-		"exercises": [
-			{
-				"description": "Match either 'cat' or 'dog'",
-				"text": "cat dog bird",
-				"expected": ["cat", "dog"]
-			},
-			{
-				"description": "Match vowels or digits",
-				"text": "a1b2c3d4",
-				"expected": ["a", "1", "b", "2", "c", "3", "d", "4"]
 			}
 		]
 	},
