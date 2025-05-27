@@ -50,15 +50,15 @@ void loadExercises(){
 
 std::vector<std::string> checkRegexInput(std::string text, std::string input){
 	std::vector<std::string> results;
-	
+
 	try {
 		std::cerr << "input: " << input << std::endl;
 		std::regex re(input);
 		std::smatch matches;
-	
+
 		auto start = text.cbegin();
 		auto end = text.cend();
-	
+
 		while (start != end && std::regex_search(start, end, matches, re)) {
 			if (matches.length() == 0) {
 				std::cerr << "match = 0" << std::endl;
@@ -69,14 +69,17 @@ std::vector<std::string> checkRegexInput(std::string text, std::string input){
 				}
 				continue;
 			}
-			results.push_back(matches.str());
+
+			for (size_t i = 0; i < matches.size(); ++i) {
+				results.push_back(matches[i].str());
+			}
+
 			start = matches.suffix().first;
 		}
-		std::cerr << "regex checked" << std::endl;
 	} catch (const std::regex_error& e) {
 		std::cerr << e.what() << std::endl;
 	}
-    return results;
+	return results;
 }
 
 std::string normalize_tabs(const std::string& input, int tab_width = 4) {
@@ -134,7 +137,8 @@ void showExerciseScreen(std::vector<Token>& tokens, int start_index = 0) {
                 for (size_t i = 0; i < std::max(token.exercises[currentExerciseIndex].expected.size(), results.size()); ++i) {
                     if (i < results.size() && i >= token.exercises[currentExerciseIndex].expected.size()) {
                         token.exercises[currentExerciseIndex].completed = false;
-                        results[i] += " ❌";
+						results[i] = "\'" + results[i];
+                        results[i] += "\' ❌";
                     } else if (i >= results.size() && i < token.exercises[currentExerciseIndex].expected.size()) {
                         token.exercises[currentExerciseIndex].completed = false;
                         results.push_back("❌ Expected more match...");
@@ -192,7 +196,7 @@ void showExerciseScreen(std::vector<Token>& tokens, int start_index = 0) {
                 separator(),
                 window(text(" Token Description "), paragraph(token.description)),
                 separator(),
-                window(text(" Exercise " + std::to_string(currentExerciseIndex + 1)),
+                window(text(" Exercise " + std::to_string(currentExerciseIndex + 1) + " / " + std::to_string(token.exercises.size()) + " "),
                     vbox({
                         paragraph(normalize_tabs(token.exercises[currentExerciseIndex].description)),
                         separator(),

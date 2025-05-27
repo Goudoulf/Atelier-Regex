@@ -1,7 +1,7 @@
 [
 	{
 		"token": "a",
-		"description": "Matches any character or word specified literally in the pattern.\nThis means the regex matches the exact sequence of characters written.\nIt does not match metacharacters unless they are escaped (e.g., `.` -> `\\.` or `*` -> `\\*`).\nThe metacharacter '.' will match every character except newline.",
+		"description": "Matches the exact character or string 'a'. Escapes are needed for metacharacters like '.', '*', etc. (e.g., '*' -> '//*')",
 		"exercises": [
 			{
 				"description": "Match every 'a' character in the text",
@@ -70,6 +70,11 @@
 				"description": "Match sequences of two whitespace characters",
 				"text": "a\t b\n c\t\t d",
 				"expected": ["\t ", "\n ", "\t\t"]
+			},
+			{
+				"description": "Match 'X7 A@b', 'Z2 #%3', '12 A+b'",
+				"text": "X7 A@b\nZ2 #%3\nA5Bb\n12 A+b\nA5 A b",
+				"expected": ["X7 A@b", "Z2 #%3", "12 A+b"]
 			}
 		]
 	},
@@ -81,11 +86,6 @@
 				"description": "Match vowels 'a', 'e', 'i' in text",
 				"text": "apple pie is nice",
 				"expected": ["a", "e", "i", "e", "i", "i", "e"]
-			},
-			{
-				"description": "Match digits 1, 3, or 5 only",
-				"text": "1234567890",
-				"expected": ["1", "3", "5"]
 			},
 			{
 				"description": "Match can, van, ran",
@@ -118,6 +118,16 @@
 				"description": "Match lowercase letters only",
 				"text": "AbCdeFGhij",
 				"expected": ["b", "d", "e", "h", "i", "j"]
+			},
+			{
+				"description": "Match uppercase letters followed by a digit",
+				"text": "A1bCdeF2G3hijkLM4nO5",
+				"expected": ["A1", "F2", "G3", "M4", "O5"]
+			},
+			{
+				"description": "Match 'a23b4c' and 'd56e7f' but not 'f78d5c'",
+				"text": "a23b4c, d56e7f, f76d5c",
+				"expected": ["a23b4c", "d56e7f"]
 			}
 		]
 	},
@@ -181,6 +191,11 @@
 				"description": "Match numbers that are between 2 and 4 digits long",
 				"text": "9 12 123 1234 12345 6 7890",
 				"expected": ["12", "123", "1234", "7890"]
+			},
+			{
+				"description": "Match sequences of exactly 2 digits followed by exactly 3 lowercase letters",
+				"text": "12abc 34def 5ghij 678klm 90nopq",
+				"expected": ["12abc", "34def"]
 			}
 		]
 	},
@@ -202,7 +217,70 @@
 				"description": "Match lines that contain only the word 'yes'",
 				"text": "yes\nno\nyes indeed\n  yes\nyes\n",
 				"expected": ["yes", "yes"]
+			},
+			{
+				"description": "Match exact phone numbers starting with 0 and 9 digits after",
+				"text": "0123456789\n1234567890\n0987654321\n01234",
+				"expected": ["0123456789", "0987654321"]
+			},
+			{
+				"description": "Match lines containing only a simple email format",
+				"text": "test@example.com\ninvalid-email\njohn.doe@domain.net\nno@at\nuser@site.org",
+				"expected": ["test@example.com", "john.doe@domain.net", "user@site.org"]
+			}
+		]
+	},
+	{
+		"token": "()",
+		"description": "Parentheses `()` create capturing groups in a regex. They allow you to extract specific parts of a matched pattern.\n\nFor example, `(\\d{4})-(\\d{2})-(\\d{2})` captures a date and extracts year, month, and day as separate groups.",
+		"exercises": [
+			{
+				"description": "Extract year, month, and day from a date (YYYY-MM-DD)",
+				"text": "Today is 2023-11-15 and yesterday was 2023-11-14.",
+				"expected": ["2023-11-15", "2023", "11", "15", "2023-11-14", "2023", "11", "14"]
+			},
+			{
+				"description": "Extract hours, minutes and seconds from times",
+				"text": "The event is at 12:34:56 and ends at 23:59:59.",
+				"expected": ["12:34:56", "12", "34", "56", "23:59:59", "23", "59", "59"]
+			},
+			{
+				"description": "Match email address and extract id and domain from emails (id@domain.com)",
+				"text": "contact@example.com\nadmin@test.org\nuser@website.net\n42@lyon",
+				"expected": ["contact@example.com", "contact", "example", "admin@test.org", "admin", "test", "user@website.net", "user", "website"]
+			}
+		]
+	},
+	{
+		"token": "(?:)",
+		"description": "Non-capturing groups `(?:...)` group part of a regex without creating a capturing group.",
+		"exercises": [
+			{
+				"description": "Match both 'color' and 'colour' using a non-capturing group",
+				"text": "The American spelling is color, while the British is colour.",
+				"expected": ["color", "colour"]
+			},
+			{
+				"description": "Match words ending in 'ing' optionally preceded by 'pre' (but don't capture 'pre')",
+				"text": "preparing, eating, preheating, running",
+				"expected": ["preparing", "eating", "preheating", "running"]
+			},
+			{
+				"description": "Match all dates in 'DD-MM' or 'DD/MM' format without capturing the separator",
+				"text": "Today's date is 27-05, yesterday was 26/05, and the day before was 25.05.",
+				"expected": ["27-05", "26/05"]
+			},
+			{
+				"description": "Match phone numbers that begin with either +33 or 0 (non-capturing), followed by 9 digits",
+				"text": "Call me on +33612345678 or 0612345678, but not on 123456789.",
+				"expected": ["+33612345678", "0612345678"]
+			},
+			{
+				"description": "Match version numbers like 'v1.2' or 'ver1.2' using a non-capturing group",
+				"text": "We released v1.2 yesterday and ver1.3 today. Expect v2.0 soon.",
+				"expected": ["v1.2", "ver1.3", "v2.0"]
 			}
 		]
 	}
+
 ]
