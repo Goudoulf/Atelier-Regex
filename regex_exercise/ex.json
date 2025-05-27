@@ -261,16 +261,6 @@
 				"expected": ["color", "colour"]
 			},
 			{
-				"description": "Match words ending in 'ing' optionally preceded by 'pre' (but don't capture 'pre')",
-				"text": "preparing, eating, preheating, running",
-				"expected": ["preparing", "eating", "preheating", "running"]
-			},
-			{
-				"description": "Match all dates in 'DD-MM' or 'DD/MM' format without capturing the separator",
-				"text": "Today's date is 27-05, yesterday was 26/05, and the day before was 25.05.",
-				"expected": ["27-05", "26/05"]
-			},
-			{
 				"description": "Match phone numbers that begin with either +33 or 0 (non-capturing), followed by 9 digits",
 				"text": "Call me on +33612345678 or 0612345678, but not on 123456789.",
 				"expected": ["+33612345678", "0612345678"]
@@ -279,6 +269,11 @@
 				"description": "Match version numbers like 'v1.2' or 'ver1.2' using a non-capturing group",
 				"text": "We released v1.2 yesterday and ver1.3 today. Expect v2.0 soon.",
 				"expected": ["v1.2", "ver1.3", "v2.0"]
+			},
+			{
+				"description": "Match any content between <b>...</b> and <strong>...</strong>",
+				"text": "This an <b>important text</b>, and here an <strong>other word</strong>. But <i>this word</i> must not be captured.",
+				"expected": ["<b>important text</b>", "important text", "<strong>other word</strong>", "ohter word"]
 			}
 		]
 	}
