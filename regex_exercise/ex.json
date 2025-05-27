@@ -175,7 +175,7 @@
 	},
 	{
 		"token": "{n}, {n,}, {n,m}",
-		"description": "Matches previous token exactly n times or n and more times or between n and m times.",
+		"description": "Matches previous token exactly n times with '{n}' or n and more times with '{n,}' or between n and m times with '{n,m}'.",
 		"exercises": [
 			{
 				"description": "Match any 3 character sequence",
@@ -232,7 +232,7 @@
 	},
 	{
 		"token": "()",
-		"description": "Parentheses `()` create capturing groups in a regex. They allow you to extract specific parts of a matched pattern.\n\nFor example, `(\\d{4})-(\\d{2})-(\\d{2})` captures a date and extracts year, month, and day as separate groups.",
+		"description": "Parentheses `()` create capturing groups in a regex. They allow you to extract specific parts of a matched pattern.",
 		"exercises": [
 			{
 				"description": "Extract year, month, and day from a date (YYYY-MM-DD)",
@@ -277,5 +277,4 @@
 			}
 		]
 	}
-
 ]
