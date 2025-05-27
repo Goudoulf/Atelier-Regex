@@ -1,7 +1,7 @@
 [
 	{
 		"token": "a",
-		"description": "Matches the exact character or string 'a'. Escapes are needed for metacharacters like '.', '*', etc. (e.g., '*' -> '//*')",
+		"description": "Matches the exact character or string 'a'. Escapes are needed for metacharacters like '.', '*', etc. (e.g., '*' -> '\\*')",
 		"exercises": [
 			{
 				"description": "Match every 'a' character in the text",
@@ -273,7 +273,7 @@
 			{
 				"description": "Match any content between <b>...</b> and <strong>...</strong>",
 				"text": "This an <b>important text</b>, and here an <strong>other word</strong>. But <i>this word</i> must not be captured.",
-				"expected": ["<b>important text</b>", "important text", "<strong>other word</strong>", "ohter word"]
+				"expected": ["<b>important text</b>", "important text", "<strong>other word</strong>", "other word"]
 			}
 		]
 	}
